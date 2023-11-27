@@ -1,0 +1,45 @@
+WINDUP = 20
+
+log2.csv - Integral seems low, overshoot when new setpoints
+kp = 0.045
+ki = 0.05
+kd = 0.0375
+
+log3.csv - Growing sinusoidal motion due to higher integral - reduce prop
+kp = 0.03
+ki = 0.15
+kd = 0.0375
+
+log4.csv - Sinusoidal motion with same amplitude until new setpoint - removing kd and halfing ki
+kp = 0.03
+ki = 0.15
+kd = 0#0.0375
+
+log5.csv - Smoother motion, needs derivative to stop higher velocities - introducing kd back
+kp = 0.03
+ki = 0.075
+kd = 0.01
+
+log6.csv - More stable, still too little kd
+kp = 0.03
+ki = 0.075
+kd = 0.01
+
+log7.csv - Growing sinusoidal motion, upping kd
+kp = 0.03
+ki = 0.075
+kd = 0.015
+
+log8.csv - Sinusoidal motion with same amplitude - upping kp
+kp = 0.03
+ki = 0.075
+kd = 0.02
+
+log9.csv - Very stable and precise however large changes in setpoint creates critical instability -
+attempting to reduce the windup guard
+kp = 0.04
+ki = 0.075
+kd = 0.02
+
+WINDUP = 10
+log10.csv - 
