@@ -8,11 +8,11 @@ import cv2
 import serial
 import math
 from tkinter import *
-from ik import *
-from pid import *
+from lib.ik import *
+from lib.pid import *
 import time
-from pos import *
-from logger import *
+from lib.pos import *
+from utils.logger import *
 
 # -------------------------------------------Both programs(Servo Control and Ball Tracker) in one -------------------------------------------
 """
