@@ -3,6 +3,10 @@ kp = 0.04
 ki = 0.075
 kd = 0.02
 
+kp = 0.045
+ki = 0.05
+kd = 0.03
+
 class PID:
     prevIntegral = 0
     prevError = 0

@@ -6,16 +6,9 @@ class Position:
     t = 0
     def update(self, dt):
         self.t += dt
-        if (self.t < 20):
-            self.target = (0,0)
-        
-        if (self.t >= 20 and self.t < 40):
-            self.target = ((150, 0))
-        
-        if (self.t >= 40):
-            self.t -= 40
 
-        """
+
+        
         if (self.t < 5):
             self.target = (0,0)
         
@@ -45,5 +38,5 @@ class Position:
         
         if (self.t >= 29):
             self.t -= 29
-        """
+        
         

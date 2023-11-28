@@ -96,7 +96,7 @@ def ball_track(key1, queue):
         cv2.imshow("Image", imgStack)
         cv2.waitKey(1)
 
-
+start = time.time()
 prevTime = time.time()
 lastX = 999
 lastY = 999
@@ -163,17 +163,25 @@ def servo_control(key2, queue):
             
             angles = getAngles(pitch, roll)
             ang1 = int(round(angles[0]+30))
-            ang2 = int(round(angles[1]+29))
+            ang2 = int(round(angles[1]+30))
             ang3 = int(round(angles[2]+30))
 
-            angles = bytearray([ang1, ang1, ang2, ang2, ang3, ang3])
+            intang1 = int(ang1)
+            intang2 = int(ang2)
+            intang3 = int(ang3)
+            fang1 = int((ang1-intang1)*256)
+            fang2 = int((ang2-intang2)*256)
+            fang3 = int((ang3-intang3)*256)
+
+            angles = bytearray([intang1, fang1, intang2, fang2, intang3, fang3])
             if (ang1 >= 5 and ang2 >= 5 and ang3 >= 5):
                 arduino.write(angles)
             
             velx = float(new_x - lastX)/dt
             vely = float(new_y - lastY)/dt
 
-            data = (time.time(), 
+            time_ms = round((time.time()-start)*1000)
+            data = (time_ms, 
                     coords[0], 
                     coords[1],
                     velx,

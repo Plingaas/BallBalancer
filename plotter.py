@@ -37,5 +37,5 @@ def plot_interactive_data(filename):
     fig.show()
 
 if __name__ == '__main__':
-    csv_filename = 'log12.csv'  # Replace with your CSV file name
+    csv_filename = 'data/log13.csv'  # Replace with your CSV file name
     plot_interactive_data(csv_filename)

@@ -92,10 +92,20 @@ def write_arduino(data):
     arduino.write(bytes(data, 'utf-8'))
 
 # write function that will write the angles into a single tuple and call write_arduino function to pass it to arduino
+import time
+import numpy as np
+start = time.time()
+dt = 0
+now = 0
 def write_servo():
+    global last
+    now = time.time()
+
     ang1 = servo1_angle
     ang2 = servo2_angle
     ang3 = servo3_angle
+
+    
 
     angles: tuple = (round(math.degrees(ang1), 1),
                      round(math.degrees(ang2), 1),
@@ -104,13 +114,34 @@ def write_servo():
     ang1 = servo1_angle*180.0/3.141592
     ang2 = servo2_angle*180.0/3.141592
     ang3 = servo3_angle*180.0/3.141592
+    scale=20
+    global start
+    if ((now-start)*scale < np.pi/1.5):
+        ang1 = 40
+        ang2 = 40
+        ang3 = 40
+    else:
+        ang1 = 20
+        ang2 = 20
+        ang3 = 20
+
+    if ((now-start)*scale > 2*np.pi):
+        start += 2*np.pi/scale
 
     print(f'{ang1},    {ang2},    {ang3}')
 
     intang1 = int(ang1)
     intang2 = int(ang2)
     intang3 = int(ang3)
+    fang1 = int((ang1-intang1)*256)
+    fang2 = int((ang2-intang2)*256)
+    fang3 = int((ang3-intang3)*256)
 
-    data = bytearray([intang1, intang2, intang3])
+    print(f'{intang1},    {intang2},    {intang3}')
+    print(f'{fang1},    {fang2},    {fang3}')
+
+    data = bytearray([intang1, fang1, intang2, fang2, intang3, fang3])
     arduino.write(data)
-root.mainloop() # running loop
+while True:
+    write_servo()
+    time.sleep(0.033)
