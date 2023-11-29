@@ -8,11 +8,11 @@ import cv2
 import serial
 import math
 from tkinter import *
-from lib.ik import *
-from lib.pid import *
+from ik import *
+from pid import *
 import time
-from lib.pos import *
-from utils.logger import *
+from pos import *
+from logger import *
 
 # -------------------------------------------Both programs(Servo Control and Ball Tracker) in one -------------------------------------------
 """
@@ -30,25 +30,10 @@ cap.set(4, 720)
 get, img = cap.read()
 h, w, _ = img.shape
 
-port_id = '/dev/cu.usbserial-110'
+port_id = '/dev/cu.usbserial-110' 
 # initialise serial interface
 arduino = serial.Serial(port=port_id, baudrate=230400, timeout=0.1)
 
-# define servo angles and set a value
-servo1_angle = 0
-servo2_angle = 0
-servo3_angle = 0
-all_angle = 0
-
-# Set a limit to upto which you want to rotate the servos (You can do it according to your needs)
-servo1_angle_limit_positive = 90
-servo1_angle_limit_negative = -90
-
-servo2_angle_limit_positive = 90
-servo2_angle_limit_negative = -90
-
-servo3_angle_limit_positive = 90
-servo3_angle_limit_negative = -90
 
 maxpitch = 16.5
 maxroll = 15
@@ -61,7 +46,7 @@ def ball_track(key1, queue):
         print('Ball tracking is initiated')
 
     myColorFinder = ColorFinder(False)  # if you want to find the color and calibrate the program we use this *(Debugging)
-    hsvVals = {'hmin': 0, 'smin': 240, 'vmin': 162, 'hmax': 180, 'smax': 255, 'vmax': 255}
+    hsvVals = {'hmin': 0, 'smin': 230, 'vmin': 162, 'hmax': 180, 'smax': 255, 'vmax': 255}
 
     #center_point = [626, 337, 2210] # center point of the plate, calibrated
     global center_point
@@ -94,23 +79,17 @@ def ball_track(key1, queue):
 
         cv2.circle(imgStack, (center_point[0]+target.target[0],center_point[1]+target.target[1]), 5, (0, 0, 255), -1)
         cv2.imshow("Image", imgStack)
+
         cv2.waitKey(1)
 
-start = time.time()
+
 prevTime = time.time()
+start = time.time()
 lastX = 999
 lastY = 999
 def servo_control(key2, queue):
     if key2:
         print('Servo controls are initiated')
-
-
-    def all_angle_assign(angle_passed1,angle_passed2,angle_passed3):
-        global servo1_angle, servo2_angle, servo3_angle
-        servo1_angle = math.radians(float(angle_passed1))
-        servo2_angle = math.radians(float(angle_passed2))
-        servo3_angle = math.radians(float(angle_passed3))
-        write_servo()
 
     root = Tk()
     root.resizable(0, 0)
@@ -162,9 +141,9 @@ def servo_control(key2, queue):
             roll = -np.deg2rad(roll)
             
             angles = getAngles(pitch, roll)
-            ang1 = int(round(angles[0]+30))
-            ang2 = int(round(angles[1]+30))
-            ang3 = int(round(angles[2]+30))
+            ang1 = angles[0]+32
+            ang2 = angles[1]+28
+            ang3 = angles[2]+29.6
 
             intang1 = int(ang1)
             intang2 = int(ang2)
@@ -172,7 +151,7 @@ def servo_control(key2, queue):
             fang1 = int((ang1-intang1)*256)
             fang2 = int((ang2-intang2)*256)
             fang3 = int((ang3-intang3)*256)
-
+            
             angles = bytearray([intang1, fang1, intang2, fang2, intang3, fang3])
             if (ang1 >= 5 and ang2 >= 5 and ang3 >= 5):
                 arduino.write(angles)
@@ -194,21 +173,6 @@ def servo_control(key2, queue):
             lastX = new_x
             lastY = new_y
 
-    def write_arduino(data):
-        #print('The angles send to the arduino : ', data)
-
-        arduino.write(bytes(data, 'utf-8'))
-
-    def write_servo():
-        ang1 = servo1_angle
-        ang2 = servo2_angle
-        ang3 = servo3_angle
-
-        angles: tuple = (round(math.degrees(ang1), 1),
-                         round(math.degrees(ang2), 1),
-                         round(math.degrees(ang3), 1))
-
-        write_arduino(str(angles))
 
     while key2:
         writeCoord()

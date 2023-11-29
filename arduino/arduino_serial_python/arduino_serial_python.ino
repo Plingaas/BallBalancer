@@ -15,8 +15,8 @@ void setup() {
   platform.setAcceleration(500);
   platform.setMaxSpeed(1000);
   platform.setAngles(32, 28, 29.6); // Go to zeroposition.
-
-  platform.setAcceleration(150000); // Causes jittering, but must be high enoug
+  
+  platform.setAcceleration(50000); // Causes jittering, but must be high enoug
   platform.setMaxSpeed(50000);
 }
 
@@ -47,6 +47,8 @@ void loop() {
       float angle1 = (float)data[0] + ((float)data[1])/256.0; // First byte is angle integer value, second byte is decimal value given as an integer (0-255), so we downscale to 0-0.9999
       float angle2 = (float)data[2] + ((float)data[3])/256.0;
       float angle3 = (float)data[4] + ((float)data[5])/256.0;
+
+      platform.adjustAcceleration(angle1, angle2, angle3);
       platform.setAngles(angle1, angle2, angle3);
     }
   }

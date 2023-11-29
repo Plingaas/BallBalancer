@@ -6,9 +6,7 @@ class Position:
     t = 0
     def update(self, dt):
         self.t += dt
-
-
-        
+        """
         if (self.t < 5):
             self.target = (0,0)
         
@@ -38,5 +36,5 @@ class Position:
         
         if (self.t >= 29):
             self.t -= 29
-        
+        """
         

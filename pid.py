@@ -13,10 +13,10 @@ class PID:
     windup = 10
     def regulate(self, target, current, dt):
         e = target-current
+
         P = kp*e
         I = self.prevIntegral + (ki*e)*dt
         D = (e - self.prevError)/dt
-        print(self.windup)
         if (I > self.windup):
             I = self.windup
         if (I < -self.windup):
@@ -24,4 +24,5 @@ class PID:
 
         self.prevIntegral = I
         self.prevError = e
+
         return P + I + D*kd

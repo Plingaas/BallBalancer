@@ -63,9 +63,9 @@ def getAngles(pitch, roll):
     m2disp = [P2_Len, Ppr2[2] - M2[2]]
     m3disp = [P3_Len, Ppr3[2] - M3[2]]
 
-    theta1 = computeAngle(m1disp)
-    theta2 = computeAngle(m2disp)
-    theta3 = computeAngle(m3disp)
+    theta1 = computeAngle(m1disp)# + 32 # 32, 28, 29.6 physically calibrated
+    theta2 = computeAngle(m2disp)# + 38
+    theta3 = computeAngle(m3disp)# + 29.6
 
     return [np.rad2deg(theta1), np.rad2deg(theta2), np.rad2deg(theta3)]
 
