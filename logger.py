@@ -2,7 +2,7 @@ import csv
 import time
 
 class RealTimeLogger:
-    def __init__(self, filename='data/log19.csv'):
+    def __init__(self, filename='data/circlespingpongorangeperfectspeed.csv'):
         self.filename = filename
         self.file_opened = False
         self.file = None

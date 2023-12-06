@@ -22,6 +22,7 @@ logger = RealTimeLogger()
 
 PIDX = PID()
 PIDY = PID()
+# Create a figure and axis
 camera_port = 0
 cap = cv2.VideoCapture(camera_port)
 cap.set(3, 1280)
@@ -30,7 +31,7 @@ cap.set(4, 720)
 get, img = cap.read()
 h, w, _ = img.shape
 
-port_id = '/dev/cu.usbserial-110' 
+port_id = '/dev/cu.usbserial-120' 
 # initialise serial interface
 arduino = serial.Serial(port=port_id, baudrate=230400, timeout=0.1)
 
@@ -38,7 +39,7 @@ arduino = serial.Serial(port=port_id, baudrate=230400, timeout=0.1)
 maxpitch = 16.5
 maxroll = 15
 target = Position()
-center_point = [640, 360, 2210] # center point of the plate, calibrated
+center_point = [640, 380, 2210] # center point of the plate, calibrated
 
 def ball_track(key1, queue):
 
@@ -57,6 +58,8 @@ def ball_track(key1, queue):
 
         x = 0
         y = 0
+        rx = 0
+        ry = 0
         if countours:
             x = round(countours[0]['center'][0])
             y = round(countours[0]['center'][1])
@@ -76,8 +79,6 @@ def ball_track(key1, queue):
         cv2.circle(imgStack, (x, y), 30, (255, 255, 255), 1)
         cv2.circle(imgStack, (center_point[0], center_point[1]), 290, (255, 0, 255), 2)
         cv2.circle(imgStack, (center_point[0], center_point[1]), 30, (255, 0, 255), 1)
-
-        cv2.circle(imgStack, (center_point[0]+target.target[0],center_point[1]+target.target[1]), 5, (0, 0, 255), -1)
         cv2.imshow("Image", imgStack)
 
         cv2.waitKey(1)
@@ -117,6 +118,7 @@ def servo_control(key2, queue):
 
         else:
             # PID
+
             reg_x = PIDX.regulate(target.target[0], coords[0], dt)
             new_x = reg_x
         
