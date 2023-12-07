@@ -41,6 +41,7 @@ maxroll = 15
 target = Position()
 center_point = [640, 380, 2210] # center point of the plate, calibrated
 
+
 def ball_track(key1, queue):
 
     if key1:
@@ -77,8 +78,8 @@ def ball_track(key1, queue):
         #imgStack = cvzone.stackImages([img,imgColor, mask, imgContour],2,0.5) #use for calibration and correction
         cv2.circle(imgStack, (x, y), 290, (255, 255, 255), 2)
         cv2.circle(imgStack, (x, y), 30, (255, 255, 255), 1)
-        cv2.circle(imgStack, (center_point[0], center_point[1]), 290, (255, 0, 255), 2)
-        cv2.circle(imgStack, (center_point[0], center_point[1]), 30, (255, 0, 255), 1)
+        cv2.circle(imgStack, (center_point[0], center_point[1]-40), 290, (255, 0, 255), 2)
+        cv2.circle(imgStack, (center_point[0], center_point[1]-40), 30, (255, 0, 255), 1)
         cv2.imshow("Image", imgStack)
 
         cv2.waitKey(1)

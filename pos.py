@@ -7,6 +7,5 @@ class Position:
     spd = 1
     def update(self, dt):
         self.t += dt
-        #self.target=(0,0)
-        self.target = (100*np.sin(self.t*2), 100*np.cos(self.t*2))
+        #self.target = (100*np.sin(self.t*2), 100*np.cos(self.t*2))
         
